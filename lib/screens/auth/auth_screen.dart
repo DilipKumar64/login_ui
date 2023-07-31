@@ -18,128 +18,97 @@ class _AuthScreenState extends State<AuthScreen> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    return Scaffold(
-      body: Container(
-        padding: EdgeInsets.all(16),
-        height: size.height,
-        width: size.width,
-        decoration: const BoxDecoration(
-          gradient: scaffoldGradient,
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            TopAsset(size: size),
-            SizedBox(
-              height: 50.h,
-            ),
-            Text(
-              "Discover your Dream job here",
-              style: TextStyle(fontSize: 30.sp, fontWeight: FontWeight.bold),
-              softWrap: true,
-            ),
-            Text(
-              "Dream job here",
-              style: TextStyle(fontSize: 30.sp, fontWeight: FontWeight.bold),
-              softWrap: true,
-            ),
-            SizedBox(
-              height: size.height * 0.08,
-            ),
-            Text(
-              'Explore all the most exiting jobs roles',
-              style: TextStyle(fontSize: 22.sp),
-            ),
-            Text(
-              'based on your intrest and study major',
-              style: TextStyle(fontSize: 22.sp),
-            ),
-            SizedBox(height: size.height * 0.05),
-            Container(
-              padding: EdgeInsets.all(2),
-              height: size.height * 0.06,
-              width: size.width * 0.8,
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(10),
+    return SafeArea(
+      child: Scaffold(
+        body: Container(
+          padding: const EdgeInsets.all(16),
+          height: size.height,
+          width: size.width,
+          decoration: const BoxDecoration(
+            gradient: scaffoldGradient,
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              TopAsset(size: size),
+              SizedBox(
+                height: 55.h,
               ),
-              child: Row(
-                children: [
-                  CustomButton(
-                    fun: () {},
-                    height: double.infinity,
-                    width: size.width * 0.39,
-                    title: 'Register',
-                    auth: _auth,
-                    authValue: Auth.register,
-                  ),
-                  Spacer(),
-                  CustomButton(
-                    fun: () {},
-                    height: double.infinity,
-                    width: size.width * 0.39,
-                    title: 'Sign In',
-                    auth: _auth,
-                    authValue: Auth.signIn,
-                  ),
-                ],
+              Text(
+                "Discover your ",
+                style: textTheme.headlineSmall,
+                softWrap: true,
               ),
-            )
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-class CustomButton extends StatefulWidget {
-  CustomButton({
-    super.key,
-    required this.height,
-    required this.width,
-    required this.fun,
-    required this.title,
-    required this.auth,
-    required this.authValue,
-  });
-
-  final double height;
-  final double width;
-  final String title;
-  final VoidCallback fun;
-  Auth auth;
-  final Auth authValue;
-
-  @override
-  State<CustomButton> createState() => _CustomButtonState();
-}
-
-class _CustomButtonState extends State<CustomButton> {
-  bool state = true;
-
-  @override
-  Widget build(BuildContext context) {
-    return InkWell(
-      onTap: () {
-        setState(() {
-          widget.auth = widget.authValue;
-        });
-      },
-      child: Container(
-        width: widget.width,
-        height: double.infinity,
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(10),
-          gradient: (widget.auth == widget.authValue)
-              ? null
-              : const LinearGradient(
-                  colors: [
-                    Color(0xFFe8ecf6),
-                    Color(0xFFedeaf0),
-                  ],
+              Text(
+                "Dream job here",
+                style: textTheme.headlineSmall,
+                softWrap: true,
+              ),
+              SizedBox(
+                height: size.height * 0.03,
+              ),
+              Text(
+                'Explore all the most exiting jobs roles',
+                style:
+                    TextStyle(fontSize: 14.sp, color: const Color(0xFF9b98aa)),
+              ),
+              Text(
+                'based on your intrest and study major',
+                style: TextStyle(
+                  fontSize: 14.sp,
+                  color: const Color(0xFF9b98aa),
                 ),
+              ),
+              SizedBox(height: size.height * 0.08),
+              InkWell(
+                child: Container(
+                  padding: const EdgeInsets.all(2),
+                  height: size.height * 0.075,
+                  width: size.width * 0.8,
+                  decoration: BoxDecoration(
+                      gradient: const LinearGradient(
+                        stops: [0.43, 0.5, 0.75],
+                        colors: [
+                          Colors.white,
+                          Color(0xFFe8ecf6),
+                          Color(0xFFedeaf0),
+                        ],
+                      ),
+                      // color: Colors.white,
+                      borderRadius: BorderRadius.circular(10),
+                      border: Border.all(color: Colors.white, width: 2)),
+                  child: Row(
+                    children: [
+                      Container(
+                        width: size.width * 0.38,
+                        height: double.infinity,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                            color: Colors.white),
+                        child: const Center(child: Text('Register')),
+                      ),
+                      const Spacer(),
+                      Container(
+                        width: size.width * 0.38,
+                        height: double.infinity,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                          gradient: const LinearGradient(
+                            colors: [
+                              Color(0xFFe8ecf6),
+                              Color(0xFFedeaf0),
+                            ],
+                          ),
+                        ),
+                        child: const Center(child: Text('Sign In')),
+                      ),
+                    ],
+                  ),
+                ),
+              )
+            ],
+          ),
         ),
-        child: Center(child: Text(widget.title)),
       ),
     );
   }

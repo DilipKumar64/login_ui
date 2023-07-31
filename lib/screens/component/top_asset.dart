@@ -11,7 +11,7 @@ class TopAsset extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: size.height * 0.5,
+      height: size.height * 0.49,
       width: double.infinity,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(50),
@@ -22,6 +22,7 @@ class TopAsset extends StatelessWidget {
           ],
         ),
       ),
+      child: Image.asset('assets/images/asset1.png'),
     );
   }
 }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:login_ui/screens/auth/auth_screen.dart';
+import 'package:login_ui/screens/auth/sign_in_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -18,11 +19,13 @@ class MyApp extends StatelessWidget {
         splitScreenMode: true,
         builder: (context, child) {
           return MaterialApp(
+            debugShowCheckedModeBanner: false,
             title: 'Flutter Demo',
             theme: ThemeData(
               primarySwatch: Colors.blue,
             ),
-            home: const AuthScreen(),
+            // home: const SignInScreen(),
+            home: AuthScreen(),
           );
         });
   }
