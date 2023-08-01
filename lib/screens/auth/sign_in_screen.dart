@@ -1,5 +1,7 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:login_ui/constants.dart';
 
 import '../component/custom_sign_in_button.dart';
@@ -145,16 +147,19 @@ class _SignInScreenState extends State<SignInScreen> {
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
                     CustomSignInButton(
+                      fun: signInWithGoogle(),
                       height: 40.h,
                       width: 60.w,
                       imagePath: 'assets/images/google.png',
                     ),
                     CustomSignInButton(
+                      fun: () {},
                       height: 45.h,
                       width: 70.w,
                       imagePath: 'assets/images/apple-logo.png',
                     ),
                     CustomSignInButton(
+                      fun: () {},
                       height: 40.h,
                       width: 60.w,
                       imagePath: 'assets/images/facebook.png',
@@ -183,6 +188,15 @@ class _SignInScreenState extends State<SignInScreen> {
         ),
       ),
     );
+  }
+
+  signInWithGoogle() async {
+    GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+    GoogleSignInAuthentication? googleAuth = await googleUser?.authentication;
+    AuthCredential credential = GoogleAuthProvider.credential(
+        accessToken: googleAuth?.accessToken, idToken: googleAuth?.idToken);
+    UserCredential user =
+        await FirebaseAuth.instance.signInWithCredential(credential);
   }
 }
 

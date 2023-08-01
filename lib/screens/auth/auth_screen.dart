@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:login_ui/constants.dart';
+import 'package:login_ui/screens/auth/sign_in_screen.dart';
 
 import '../component/top_asset.dart';
 
@@ -60,35 +61,43 @@ class _AuthScreenState extends State<AuthScreen> {
                 ),
               ),
               SizedBox(height: size.height * 0.08),
-              InkWell(
-                child: Container(
-                  padding: const EdgeInsets.all(2),
-                  height: size.height * 0.075,
-                  width: size.width * 0.8,
-                  decoration: BoxDecoration(
-                      gradient: const LinearGradient(
-                        stops: [0.43, 0.5, 0.75],
-                        colors: [
-                          Colors.white,
-                          Color(0xFFe8ecf6),
-                          Color(0xFFedeaf0),
-                        ],
-                      ),
-                      // color: Colors.white,
-                      borderRadius: BorderRadius.circular(10),
-                      border: Border.all(color: Colors.white, width: 2)),
-                  child: Row(
-                    children: [
-                      Container(
-                        width: size.width * 0.38,
-                        height: double.infinity,
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10),
-                            color: Colors.white),
-                        child: const Center(child: Text('Register')),
-                      ),
-                      const Spacer(),
-                      Container(
+              Container(
+                padding: const EdgeInsets.all(2),
+                height: size.height * 0.075,
+                width: size.width * 0.8,
+                decoration: BoxDecoration(
+                    gradient: const LinearGradient(
+                      stops: [0.43, 0.5, 0.75],
+                      colors: [
+                        Colors.white,
+                        Color(0xFFe8ecf6),
+                        Color(0xFFedeaf0),
+                      ],
+                    ),
+                    // color: Colors.white,
+                    borderRadius: BorderRadius.circular(10),
+                    border: Border.all(color: Colors.white, width: 2)),
+                child: Row(
+                  children: [
+                    Container(
+                      width: size.width * 0.38,
+                      height: double.infinity,
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                          color: Colors.white),
+                      child: const Center(child: Text('Register')),
+                    ),
+                    const Spacer(),
+                    InkWell(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const SignInScreen(),
+                          ),
+                        );
+                      },
+                      child: Container(
                         width: size.width * 0.38,
                         height: double.infinity,
                         decoration: BoxDecoration(
@@ -102,8 +111,8 @@ class _AuthScreenState extends State<AuthScreen> {
                         ),
                         child: const Center(child: Text('Sign In')),
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
               )
             ],
