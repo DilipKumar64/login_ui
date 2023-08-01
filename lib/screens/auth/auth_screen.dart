@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:login_ui/constants.dart';
+import 'package:login_ui/screens/auth/sign_in_screen.dart';
 
 import '../component/top_asset.dart';
 
@@ -88,19 +89,27 @@ class _AuthScreenState extends State<AuthScreen> {
                         child: const Center(child: Text('Register')),
                       ),
                       const Spacer(),
-                      Container(
-                        width: size.width * 0.38,
-                        height: double.infinity,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
-                          gradient: const LinearGradient(
-                            colors: [
-                              Color(0xFFe8ecf6),
-                              Color(0xFFedeaf0),
-                            ],
+                      InkWell(
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => SignInScreen()));
+                        },
+                        child: Container(
+                          width: size.width * 0.38,
+                          height: double.infinity,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                            gradient: const LinearGradient(
+                              colors: [
+                                Color(0xFFe8ecf6),
+                                Color(0xFFedeaf0),
+                              ],
+                            ),
                           ),
+                          child: const Center(child: Text('Sign In')),
                         ),
-                        child: const Center(child: Text('Sign In')),
                       ),
                     ],
                   ),
