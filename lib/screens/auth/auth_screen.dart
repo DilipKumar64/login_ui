@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:login_ui/constants.dart';
+import 'package:login_ui/screens/auth/register_screen.dart';
 import 'package:login_ui/screens/auth/sign_in_screen.dart';
 
 import '../component/top_asset.dart';
@@ -80,13 +81,23 @@ class _AuthScreenState extends State<AuthScreen> {
                       border: Border.all(color: Colors.white, width: 2)),
                   child: Row(
                     children: [
-                      Container(
-                        width: size.width * 0.38,
-                        height: double.infinity,
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10),
-                            color: Colors.white),
-                        child: const Center(child: Text('Register')),
+                      InkWell(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const RegisterScreen(),
+                            ),
+                          );
+                        },
+                        child: Container(
+                          width: size.width * 0.38,
+                          height: double.infinity,
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10),
+                              color: Colors.white),
+                          child: const Center(child: Text('Register')),
+                        ),
                       ),
                       const Spacer(),
                       InkWell(

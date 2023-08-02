@@ -7,10 +7,12 @@ class CustomSignInButton extends StatelessWidget {
     required this.imagePath,
     required this.height,
     required this.width,
+    required this.fun,
   });
   final String imagePath;
   final double height;
   final double width;
+  final VoidCallback fun;
   @override
   Widget build(BuildContext context) {
     return Container(

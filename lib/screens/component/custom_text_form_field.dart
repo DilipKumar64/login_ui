@@ -56,6 +56,7 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
           fillColor: Colors.white,
           hintText: widget.hintText,
         ),
+        validator: widget.validator,
       ),
     );
   }

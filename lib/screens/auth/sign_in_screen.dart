@@ -1,5 +1,7 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:login_ui/constants.dart';
 import 'package:login_ui/screens/component/custom_text_form_field.dart';
 
@@ -16,9 +18,9 @@ class _SignInScreenState extends State<SignInScreen> {
   TextEditingController usernameController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
 
+  final _signInKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
-    final _signInKey = GlobalKey<FormState>();
     Size size = MediaQuery.of(context).size;
     return SafeArea(
       child: Scaffold(
@@ -58,9 +60,20 @@ class _SignInScreenState extends State<SignInScreen> {
                   height: 40.h,
                 ),
                 Form(
+                  key: _signInKey,
                   child: Column(
                     children: [
                       CustomTextFormField(
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Enter your email';
+                          }
+                          if (!RegExp("^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+.[a-z]")
+                              .hasMatch(value)) {
+                            return 'Please a valid Email';
+                          }
+                          return null;
+                        },
                         controller: usernameController,
                         hintText: 'Enter username',
                         isPassword: false,
@@ -69,6 +82,15 @@ class _SignInScreenState extends State<SignInScreen> {
                         height: 13.h,
                       ),
                       CustomTextFormField(
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Enter a password';
+                            }
+                            if (value.length < 6) {
+                              return 'Password shold have atleast 6 charactor';
+                            }
+                            return null;
+                          },
                           controller: passwordController,
                           hintText: 'Password',
                           isPassword: true),
@@ -87,29 +109,36 @@ class _SignInScreenState extends State<SignInScreen> {
                 SizedBox(
                   height: 28.h,
                 ),
-                Container(
-                  height: 53.h,
-                  width: size.width * 0.85,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(15),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Color(0xFFf26969).withOpacity(0.3),
-                        blurRadius: 30,
-                        offset: Offset(0, 20),
-                      ),
-                    ],
-                    gradient: const LinearGradient(
-                      colors: [
-                        Color(0xFFf26969),
-                        Color(0xFFfd6b68),
+                InkWell(
+                  onTap: () {
+                    if (_signInKey.currentState!.validate()) {
+                      print('valid');
+                    }
+                  },
+                  child: Container(
+                    height: 53.h,
+                    width: size.width * 0.85,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(15),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Color(0xFFf26969).withOpacity(0.3),
+                          blurRadius: 30,
+                          offset: Offset(0, 20),
+                        ),
                       ],
+                      gradient: const LinearGradient(
+                        colors: [
+                          Color(0xFFf26969),
+                          Color(0xFFfd6b68),
+                        ],
+                      ),
                     ),
-                  ),
-                  child: Center(
-                    child: Text(
-                      'Sign In',
-                      style: textTheme.titleMedium,
+                    child: Center(
+                      child: Text(
+                        'Sign In',
+                        style: textTheme.titleMedium,
+                      ),
                     ),
                   ),
                 ),
@@ -146,16 +175,20 @@ class _SignInScreenState extends State<SignInScreen> {
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
                     CustomSignInButton(
+                      // fun: signInWithGoogle(),
+                      fun: () {},
                       height: 40.h,
                       width: 60.w,
                       imagePath: 'assets/images/google.png',
                     ),
                     CustomSignInButton(
+                      fun: () {},
                       height: 45.h,
                       width: 70.w,
                       imagePath: 'assets/images/apple-logo.png',
                     ),
                     CustomSignInButton(
+                      fun: () {},
                       height: 40.h,
                       width: 60.w,
                       imagePath: 'assets/images/facebook.png',
@@ -184,5 +217,14 @@ class _SignInScreenState extends State<SignInScreen> {
         ),
       ),
     );
+  }
+
+  signInWithGoogle() async {
+    GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+    GoogleSignInAuthentication? googleAuth = await googleUser?.authentication;
+    AuthCredential credential = GoogleAuthProvider.credential(
+        accessToken: googleAuth?.accessToken, idToken: googleAuth?.idToken);
+    UserCredential user =
+        await FirebaseAuth.instance.signInWithCredential(credential);
   }
 }
