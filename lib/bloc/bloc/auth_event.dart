@@ -22,3 +22,5 @@ class SignedIn extends AuthEvent {
 
   SignedIn({required this.email, required this.password});
 }
+
+class RegisterButtonClickedEvent extends AuthEvent {}

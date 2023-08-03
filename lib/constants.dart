@@ -50,3 +50,4 @@ TextTheme textTheme = TextTheme(
   labelSmall: GoogleFonts.poppins(
       fontSize: 10, fontWeight: FontWeight.w400, letterSpacing: 1.5),
 );
+const String USER_LOGGED_IN = 'isUserLoggedIn';

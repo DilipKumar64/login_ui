@@ -5,6 +5,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:login_ui/bloc/bloc/auth_bloc.dart';
 import 'package:login_ui/firebase_options.dart';
 import 'package:login_ui/screens/auth/auth_screen.dart';
+import 'package:login_ui/screens/auth/register_screen.dart';
+import 'package:login_ui/screens/auth/sign_in_screen.dart';
 import 'package:login_ui/screens/home/home_screen.dart';
 
 void main() async {
@@ -50,12 +52,17 @@ class MyHomePage extends StatelessWidget {
     return Scaffold(
       body: Center(
         child: BlocBuilder<AuthBloc, AuthState>(
+          // bloc: authenticationBloc,
           builder: (context, state) {
             if (state is AuthLoading) {
               return const CircularProgressIndicator();
             } else if (state is AuthAuthenticated) {
               // User is logged in, navigate to the HomePage.
               return const HomeScreen();
+            } else if (state is RegisterButtonClickedState) {
+              return const RegisterScreen();
+            } else if (state is AuthRegistered) {
+              return const SignInScreen();
             } else {
               // User is not logged in, navigate to the AuthScreen.
               return const AuthScreen();

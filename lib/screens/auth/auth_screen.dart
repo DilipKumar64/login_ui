@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:login_ui/bloc/bloc/auth_bloc.dart';
 import 'package:login_ui/constants.dart';
 import 'package:login_ui/screens/auth/register_screen.dart';
 import 'package:login_ui/screens/auth/sign_in_screen.dart';
@@ -19,6 +20,7 @@ class _AuthScreenState extends State<AuthScreen> {
   Auth _auth = Auth.register;
   @override
   Widget build(BuildContext context) {
+    AuthBloc authBloc = AuthBloc();
     Size size = MediaQuery.of(context).size;
     return SafeArea(
       child: Scaffold(
@@ -83,12 +85,7 @@ class _AuthScreenState extends State<AuthScreen> {
                     children: [
                       InkWell(
                         onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => const RegisterScreen(),
-                            ),
-                          );
+                          authBloc.add(RegisterButtonClickedEvent());
                         },
                         child: Container(
                           width: size.width * 0.38,
@@ -101,12 +98,7 @@ class _AuthScreenState extends State<AuthScreen> {
                       ),
                       const Spacer(),
                       InkWell(
-                        onTap: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => SignInScreen()));
-                        },
+                        onTap: () {},
                         child: Container(
                           width: size.width * 0.38,
                           height: double.infinity,
