@@ -1,7 +1,7 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:google_sign_in/google_sign_in.dart';
+import 'package:login_ui/bloc/bloc/auth_bloc.dart';
 import 'package:login_ui/constants.dart';
 import 'package:login_ui/screens/component/custom_text_form_field.dart';
 
@@ -9,13 +9,13 @@ import '../component/custom_sign_in_button.dart';
 
 class SignInScreen extends StatefulWidget {
   const SignInScreen({super.key});
-
+  static const String id = 'sign_in_screen';
   @override
   State<SignInScreen> createState() => _SignInScreenState();
 }
 
 class _SignInScreenState extends State<SignInScreen> {
-  TextEditingController usernameController = TextEditingController();
+  TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
 
   final _signInKey = GlobalKey<FormState>();
@@ -48,13 +48,13 @@ class _SignInScreenState extends State<SignInScreen> {
                 ),
                 Text(
                   'Welcome back you\'ve',
-                  style:
-                      textTheme.titleLarge!.copyWith(color: Color(0xFF656172)),
+                  style: textTheme.titleLarge!
+                      .copyWith(color: const Color(0xFF656172)),
                 ),
                 Text(
                   'been missed!',
-                  style:
-                      textTheme.titleLarge!.copyWith(color: Color(0xFF656172)),
+                  style: textTheme.titleLarge!
+                      .copyWith(color: const Color(0xFF656172)),
                 ),
                 SizedBox(
                   height: 40.h,
@@ -74,7 +74,7 @@ class _SignInScreenState extends State<SignInScreen> {
                           }
                           return null;
                         },
-                        controller: usernameController,
+                        controller: emailController,
                         hintText: 'Enter username',
                         isPassword: false,
                       ),
@@ -102,8 +102,8 @@ class _SignInScreenState extends State<SignInScreen> {
                   alignment: Alignment.centerRight,
                   child: Text(
                     'Recovery  Password',
-                    style:
-                        textTheme.bodySmall!.copyWith(color: Color(0xFF656172)),
+                    style: textTheme.bodySmall!
+                        .copyWith(color: const Color(0xFF656172)),
                   ),
                 ),
                 SizedBox(
@@ -112,32 +112,42 @@ class _SignInScreenState extends State<SignInScreen> {
                 InkWell(
                   onTap: () {
                     if (_signInKey.currentState!.validate()) {
-                      print('valid');
+                      context.read<AuthBloc>().add(SignedIn(
+                            email: emailController.text,
+                            password: passwordController.text,
+                          ));
                     }
                   },
-                  child: Container(
-                    height: 53.h,
-                    width: size.width * 0.85,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(15),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Color(0xFFf26969).withOpacity(0.3),
-                          blurRadius: 30,
-                          offset: Offset(0, 20),
-                        ),
-                      ],
-                      gradient: const LinearGradient(
-                        colors: [
-                          Color(0xFFf26969),
-                          Color(0xFFfd6b68),
+                  child: BlocListener<AuthBloc, AuthState>(
+                    listener: (context, state) {
+                      if (state is AuthAuthenticated) {
+                        Navigator.pop(context);
+                      }
+                    },
+                    child: Container(
+                      height: 53.h,
+                      width: size.width * 0.85,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(15),
+                        boxShadow: [
+                          BoxShadow(
+                            color: const Color(0xFFf26969).withOpacity(0.3),
+                            blurRadius: 30,
+                            offset: const Offset(0, 20),
+                          ),
                         ],
+                        gradient: const LinearGradient(
+                          colors: [
+                            Color(0xFFf26969),
+                            Color(0xFFfd6b68),
+                          ],
+                        ),
                       ),
-                    ),
-                    child: Center(
-                      child: Text(
-                        'Sign In',
-                        style: textTheme.titleMedium,
+                      child: Center(
+                        child: Text(
+                          'Sign In',
+                          style: textTheme.titleMedium,
+                        ),
                       ),
                     ),
                   ),
@@ -217,14 +227,5 @@ class _SignInScreenState extends State<SignInScreen> {
         ),
       ),
     );
-  }
-
-  signInWithGoogle() async {
-    GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
-    GoogleSignInAuthentication? googleAuth = await googleUser?.authentication;
-    AuthCredential credential = GoogleAuthProvider.credential(
-        accessToken: googleAuth?.accessToken, idToken: googleAuth?.idToken);
-    UserCredential user =
-        await FirebaseAuth.instance.signInWithCredential(credential);
   }
 }

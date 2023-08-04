@@ -1,26 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:login_ui/bloc/bloc/auth_bloc.dart';
 import 'package:login_ui/constants.dart';
 import 'package:login_ui/screens/auth/register_screen.dart';
 import 'package:login_ui/screens/auth/sign_in_screen.dart';
-
 import '../component/top_asset.dart';
 
 enum Auth { register, signIn }
 
 class AuthScreen extends StatefulWidget {
   const AuthScreen({super.key});
-
+  static const String id = 'auth_screen';
   @override
   State<AuthScreen> createState() => _AuthScreenState();
 }
 
 class _AuthScreenState extends State<AuthScreen> {
-  Auth _auth = Auth.register;
   @override
   Widget build(BuildContext context) {
-    AuthBloc authBloc = AuthBloc();
     Size size = MediaQuery.of(context).size;
     return SafeArea(
       child: Scaffold(
@@ -85,7 +81,7 @@ class _AuthScreenState extends State<AuthScreen> {
                     children: [
                       InkWell(
                         onTap: () {
-                          authBloc.add(RegisterButtonClickedEvent());
+                          Navigator.of(context).pushNamed(RegisterScreen.id);
                         },
                         child: Container(
                           width: size.width * 0.38,
@@ -98,7 +94,9 @@ class _AuthScreenState extends State<AuthScreen> {
                       ),
                       const Spacer(),
                       InkWell(
-                        onTap: () {},
+                        onTap: () {
+                          Navigator.of(context).pushNamed(SignInScreen.id);
+                        },
                         child: Container(
                           width: size.width * 0.38,
                           height: double.infinity,

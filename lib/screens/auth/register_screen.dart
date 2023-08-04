@@ -8,7 +8,7 @@ import '../../bloc/bloc/auth_bloc.dart';
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});
-
+  static const String id = 'register_screen';
   @override
   State<RegisterScreen> createState() => _RegisterScreenState();
 }
@@ -20,7 +20,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
   final _passwordConroller = TextEditingController();
   @override
   Widget build(BuildContext context) {
-    final authBloc = BlocProvider.of<AuthBloc>(context);
     Size size = MediaQuery.of(context).size;
     return SafeArea(
       child: Scaffold(
@@ -84,40 +83,44 @@ class _RegisterScreenState extends State<RegisterScreen> {
               SizedBox(
                 height: 20.h,
               ),
-              InkWell(
-                onTap: () {
-                  if (_emailRegKey.currentState!.validate()) {
-                    authBloc.add(RegisterUser(
-                        email: _emailConroller.text,
-                        password: _passwordConroller.text));
-                    // context.read<AuthBloc>().add(RegisterUser(
-                    //     email: _emailConroller.text,
-                    //     password: _passwordConroller.text));
+              BlocListener<AuthBloc, AuthState>(
+                listener: (context, state) {
+                  if (state is AuthRegistered) {
+                    Navigator.pop(context);
                   }
                 },
-                child: Container(
-                  height: 53.h,
-                  width: size.width * 0.85,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(15),
-                    boxShadow: [
-                      BoxShadow(
-                        color: const Color(0xFFf26969).withOpacity(0.3),
-                        blurRadius: 30,
-                        offset: const Offset(0, 20),
-                      ),
-                    ],
-                    gradient: const LinearGradient(
-                      colors: [
-                        Color(0xFFf26969),
-                        Color(0xFFfd6b68),
+                child: InkWell(
+                  onTap: () {
+                    if (_emailRegKey.currentState!.validate()) {
+                      context.read<AuthBloc>().add(RegisterUser(
+                          email: _emailConroller.text,
+                          password: _passwordConroller.text));
+                    }
+                  },
+                  child: Container(
+                    height: 53.h,
+                    width: size.width * 0.85,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(15),
+                      boxShadow: [
+                        BoxShadow(
+                          color: const Color(0xFFf26969).withOpacity(0.3),
+                          blurRadius: 30,
+                          offset: const Offset(0, 20),
+                        ),
                       ],
+                      gradient: const LinearGradient(
+                        colors: [
+                          Color(0xFFf26969),
+                          Color(0xFFfd6b68),
+                        ],
+                      ),
                     ),
-                  ),
-                  child: Center(
-                    child: Text(
-                      'Register',
-                      style: textTheme.titleMedium,
+                    child: Center(
+                      child: Text(
+                        'Register',
+                        style: textTheme.titleMedium,
+                      ),
                     ),
                   ),
                 ),

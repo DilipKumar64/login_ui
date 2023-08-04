@@ -5,19 +5,22 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:login_ui/bloc/bloc/auth_bloc.dart';
 import 'package:login_ui/firebase_options.dart';
 import 'package:login_ui/screens/auth/auth_screen.dart';
-import 'package:login_ui/screens/auth/register_screen.dart';
 import 'package:login_ui/screens/auth/sign_in_screen.dart';
 import 'package:login_ui/screens/home/home_screen.dart';
+import 'package:login_ui/services/app_router.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-  runApp(const MyApp());
+  runApp(MyApp(
+    appRouter: AppRouter(),
+  ));
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  const MyApp({super.key, required this.appRouter});
 
+  final AppRouter appRouter;
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
@@ -29,25 +32,27 @@ class MyApp extends StatelessWidget {
           return BlocProvider(
             create: (context) => AuthBloc(),
             child: MaterialApp(
-                debugShowCheckedModeBanner: false,
-                title: 'Flutter Demo',
-                theme: ThemeData(
-                  primarySwatch: Colors.blue,
-                ),
-                // home: const SignInScreen(),
-                home: MyHomePage()),
+              debugShowCheckedModeBanner: false,
+              title: 'Flutter Demo',
+              theme: ThemeData(
+                primarySwatch: Colors.blue,
+              ),
+              // home: const SignInScreen(),
+              home: const MyHomePage(),
+              onGenerateRoute: appRouter.onGenerateRoute,
+            ),
           );
         });
   }
 }
 
 class MyHomePage extends StatelessWidget {
+  const MyHomePage({super.key});
+
   @override
   Widget build(BuildContext context) {
-    final authenticationBloc = BlocProvider.of<AuthBloc>(context);
-
     // Dispatch the AppStarted event to check if the user is logged in.
-    authenticationBloc.add(AppStarted());
+    context.read<AuthBloc>().add(AppStarted());
 
     return Scaffold(
       body: Center(
@@ -58,9 +63,7 @@ class MyHomePage extends StatelessWidget {
               return const CircularProgressIndicator();
             } else if (state is AuthAuthenticated) {
               // User is logged in, navigate to the HomePage.
-              return const HomeScreen();
-            } else if (state is RegisterButtonClickedState) {
-              return const RegisterScreen();
+              return HomeScreen();
             } else if (state is AuthRegistered) {
               return const SignInScreen();
             } else {
