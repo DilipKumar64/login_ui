@@ -1,16 +1,7 @@
 # login_ui
 
-A new Flutter project.
+Converted figma design to app ui
 
-## Getting Started
+# Screenshots
+| <img src="https://github.com/DilipKumar64/login_ui/assets/122280140/2f33ac5d-bf08-4494-b3a7-c9d9f12fec09" width="200" height="400"> | <img src="https://github.com/DilipKumar64/login_ui/assets/122280140/f0fe5f6e-857d-4127-9071-410971cb7d34" width="200" height="400"> | <img src="https://github.com/DilipKumar64/login_ui/assets/122280140/e3ffa47d-b740-47fb-9416-b80c7c2b4442" widht="200" height="400"> |
 
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
